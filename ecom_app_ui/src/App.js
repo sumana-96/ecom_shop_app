@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Catalogue from './components/catalogue';
 import Login from './components/login';
 
-function App() {
+export default function App() {
     return (
       <Router>
           <div>
@@ -17,5 +17,3 @@ function App() {
         </Router>
   );
 }
-
-export default App;

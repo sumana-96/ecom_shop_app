@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './navbar';
 
-function Catalogue() {
+export default function Catalogue() {
     return (
         <div>
             <Navbar />
@@ -9,5 +9,3 @@ function Catalogue() {
         </div>
     );
   }
-
-export default Catalogue;

@@ -15,7 +15,8 @@ export default function Navbar() {
             <Button color="inherit" as={Link} to="/">Home</Button>
             <Button color="inherit" as={Link} to="/Catalogue">Catalogue</Button>
           </Typography>
-          <Button color="inherit" as={Link} to="/login">Login</Button>
+          <Button color="inherit" as={Link} to="/login">Login</Button> /
+          <Button color="inherit" as={Link} to="/signup">SignUp</Button>
       </Toolbar>
       </AppBar>
     </Box>   

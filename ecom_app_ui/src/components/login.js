@@ -27,7 +27,7 @@ export default function Login() {
           md={7}
           sx={{
             backgroundImage:
-              "url(https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8c2hvcHBpbmclMjBvbmxpbmV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60)",
+              "url(https://inc42.com/wp-content/uploads/2021/05/26-May-1-68-680x510.jpg)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -93,8 +93,8 @@ export default function Login() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/signup" variant="body2">
+                    Don't have an account? Sign Up
                   </Link>
                 </Grid>
               </Grid>

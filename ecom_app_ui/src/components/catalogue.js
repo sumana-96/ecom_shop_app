@@ -31,13 +31,13 @@ function valuetext(value2) {
   return `${value2}°C`;
 }
 const theme = createTheme();
-const ITEM_HEIGHT = 48;
+const ITEM_HEIGHT = 28;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+      width: 350,
     },
   },
 };
@@ -45,7 +45,7 @@ const MenuProps = {
 const names = ["Chanel", "Prada", "Gucci Jackie"];
 
 export default function Catalogue() {
-  const [personName, setPersonName] = React.useState([]);
+  const [personName, setPersonName, value, setValue] = React.useState([]);
 
   const handleChange = (event) => {
     const {
@@ -58,24 +58,7 @@ export default function Catalogue() {
   };
 
   const [value2, setValue2] = React.useState([0, 15]);
-  const [value1, setValue1] = React.useState([0, 10]);
 
-  const handleChange1 = (event, newValue, activeThumb) => {
-    if (!Array.isArray(newValue)) {
-      return;
-    }
-    if (newValue[1] - newValue[0] < minDistance) {
-      if (activeThumb === 0) {
-        const clamped = Math.min(newValue[0], 5 - minDistance);
-        setValue1([clamped, clamped + minDistance]);
-      } else {
-        const clamped = Math.max(newValue[1], minDistance);
-        setValue1([clamped - minDistance, clamped]);
-      }
-    } else {
-      setValue1(newValue);
-    }
-  };
   const handleChange2 = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) {
       return;
@@ -148,13 +131,12 @@ export default function Catalogue() {
                 <ListItemButton>
                   <ListItemText primary="Rating" />
                 </ListItemButton>
-                <Slider
-                  getAriaLabel={() => "Minimum distance shift"}
-                  value={value1}
-                  onChange={handleChange1}
-                  valueLabelDisplay="auto"
-                  getAriaValueText={valuetext}
-                  disableSwap
+                <Rating
+                  name="simple-controlled"
+                  value={value}
+                  onChange={(event, newValue) => {
+                    setValue(newValue);
+                  }}
                 />
               </ListItem>
             </List>
@@ -168,16 +150,18 @@ export default function Catalogue() {
                 bgcolor: "background.paper",
               }}
             ></Box>
-            <Container sx={{ py: 8 }} maxWidth="md">
-              <Grid container spacing={3}>
+            <Container sx={{ py: 10, px: 0 }} maxWidth="lg">
+              <Grid container spacing={5}>
                 {cards.map((card) => (
-                  <Grid item key={card} xs={12} sm={6} md={4}>
+                  <Grid item key={card} xs={12} sm={12} md={3}>
                     <Card
                       sx={{
+                        width: "100%",
                         height: "100%",
                         display: "flex",
                         flexDirection: "column",
                       }}
+                      my={20}
                     >
                       <CardMedia
                         component="img"

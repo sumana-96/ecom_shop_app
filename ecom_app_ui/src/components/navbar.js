@@ -14,6 +14,7 @@ export default function Navbar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Button color="inherit" as={Link} to="/">Home</Button>
             <Button color="inherit" as={Link} to="/Catalogue">Catalogue</Button>
+            <Button color="inherit" as={Link} to="/Admin">Admin</Button>
           </Typography>
           <Button color="inherit" as={Link} to="/login">Login</Button>
       </Toolbar>

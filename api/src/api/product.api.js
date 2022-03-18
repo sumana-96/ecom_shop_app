@@ -4,30 +4,36 @@ const { PrismaClient } = require("@prisma/client");
 // app.use(express.json());
 const prisma = new PrismaClient();
 
-const createProduct = async function (req, res) {
-      const { name, description, price, ratings } = req.body;  
-      const createdProduct = await prisma.product.create({
-              data: {
-                name: name,
-                description: description,
-                price: price,
-                ratings: ratings,
-              },
-               });
-    //   const createdProduct = await prisma.product.create(req.body);
-      res.status(201).json(createdProduct);
-  }
+// const createProduct = async function (req, res) {
+//       console.log(req.body)
+//       console.log('body ====', req.body)
 
-const getProducts= async function (req, res) {
-    try {
-        const allProducts = await prisma.product.findMany();
-        res.status(200).json(allProducts);
-      } catch (err) {
-        res.status(500).json(err);
-      }
-  }
+//       const { name, description, price, ratings } = req.body;
+//       console.log('body ====', req.body)
+//       const createdProduct = await prisma.product.create({
+//               data: {
+//                 name: name,
+//                 description: description,
+//                 price: price,
+//                 ratings: ratings,
+//                 userId: 2
+//               },
+//                });
 
- export const productApi= {
-    createProduct,
-    getProducts
- };
+//     //   const createdProduct = await prisma.product.create(req.body);
+//       res.status(201).json(createdProduct);
+//   }
+
+// const getProducts= async function (req, res) {
+//     try {
+//         const allProducts = await prisma.product.findMany();
+//         res.status(200).json(allProducts);
+//       } catch (err) {
+//         res.status(500).json(err);
+//       }
+//   }
+
+// module.exports = {
+//   createProduct,
+//   getProducts
+// }

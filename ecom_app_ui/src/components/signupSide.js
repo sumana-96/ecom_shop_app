@@ -1,128 +1,176 @@
 import React from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Navbar from "./navbar";
 
-const useStyles = makeStyles((theme) => ({
-  "@global": {
-    body: {
-      backgroundColor: theme.palette.common.white,
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+const theme = createTheme();
 
-export default function SignUp() {
-  const classes = useStyles();
+export default function Signup() {
+  const formSchema = Yup.object().shape({
+    password: Yup.string()
+      .required("Password is mandatory")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+        "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      ),
+    confirmPwd: Yup.string()
+      .required("Password is mandatory")
+      .oneOf([Yup.ref("password")], "Passwords does not match"),
+    firstname: Yup.string().required("First name is mandatory"),
+    lastname: Yup.string().required("Last name is mandatory"),
+    email: Yup.string()
+      .required("Email is mandatory")
+      .email("That doesn't look like a valid email"),
+  });
+
+  const formOptions = { resolver: yupResolver(formSchema) };
+  const { register, handleSubmit, formState } = useForm(formOptions);
+  const { errors } = formState;
+  function onSubmit(data) {
+    console.log(JSON.stringify(data, null, 4));
+    return false;
+  }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
+    <ThemeProvider theme={theme}>
+      <Navbar />
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage:
+              "url(https://cdn.pixabay.com/photo/2016/06/25/12/50/handbag-1478814__480.jpg)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid
+          item
+          xs={12}
+          sm={10}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+        >
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/login" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Box mx={20} my={10}>
+                <Box mx={10} px={2} py={2}>
+                  <div>
+                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                      <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                      Sign Up
+                    </Typography>
+                  </div>
+                </Box>
+                <Grid container style={{ width: "80%" }}>
+                  <Box mx={1} px={2} py={2}>
+                    <TextField
+                      label="First Name"
+                      variant="outlined"
+                      placeholder=""
+                      type="text"
+                      name="firstname"
+                      {...register("firstname")}
+                      className={`form-control ${
+                        errors.firstname ? "is-invalid" : ""
+                      }`}
+                    />
+                    <div>{errors.firstname?.message}</div>
+                  </Box>
+                  <Box mx={1} px={2} py={2}>
+                    <TextField
+                      label="Last Name"
+                      variant="outlined"
+                      type="text"
+                      name="lastname"
+                      {...register("lastname")}
+                      className={`form-control ${
+                        errors.lastname ? "is-invalid" : ""
+                      }`}
+                    />
+                    <div>{errors.lastname?.message}</div>
+                  </Box>
+                  <Box mx={1} px={2} py={2}>
+                    <TextField
+                      label="Email"
+                      variant="outlined"
+                      type="email"
+                      name="email"
+                      {...register("email")}
+                      className={`form-control ${
+                        errors.email ? "is-invalid" : ""
+                      }`}
+                    />
+                    <div>{errors.email?.message}</div>
+                  </Box>
+                  <Box mx={1} px={2} py={2}>
+                    <TextField
+                      label="password"
+                      variant="outlined"
+                      name="password"
+                      type="password"
+                      {...register("password")}
+                      className={`form-control ${
+                        errors.password ? "is-invalid" : ""
+                      }`}
+                    />
+                    <div>{errors.password?.message}</div>
+                  </Box>
+                  <Box mx={1} px={2} py={2}>
+                    <TextField
+                      variant="outlined"
+                      name="confirmPwd"
+                      type="password"
+                      {...register("confirmPwd")}
+                      className={`form-control ${
+                        errors.confirmPwd ? "is-invalid" : ""
+                      }`}
+                    />
+                    <div>{errors.confirmPwd?.message}</div>
+                  </Box>
+                  <Box mx={1} px={2} py={2}>
+                    <Button variant="contained" type="submit">
+                      Sign Up
+                    </Button>
+                  </Box>
+                </Grid>
+              </Box>
+            </form>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 }

@@ -140,7 +140,7 @@ export default function Home() {
             fontStyle: "oblique"
           }}>
           <Box>
-            Bags that are as strong &amp; resilient as your relationship that lasts through the tug of wars of life, that add new shades of colour to each day, some vibrant &amp; bright, some dark &amp; sexy! Bags that are as fun &amp; adventurous as you both are! Cheers to bagging each other's love &amp; trust all throughout. Explore our Resilient, Strong, Fun &amp; Gorgeous Collection for the two of you!
+            Bags that are as strong &amp; resilient as your relationship that lasts through the tug of wars of life, that add new shades of colour to each day, some vibrant &amp; bright, some dark &amp; sexy! Bags that are as fun &amp; adventurous as you both are! Cheers to bagging each others love &amp; trust all throughout. Explore our Resilient, Strong, Fun &amp; Gorgeous Collection for the two of you!
           </Box>
         </Paper>
       </Box>

@@ -25,7 +25,6 @@ export default function Navbar() {
           <Button color="inherit" as={Link} to="/login">
             Login
           </Button>{" "}
-          /
           <Button color="inherit" as={Link} to="/signup">
             SignUp
           </Button>

@@ -21,7 +21,7 @@ export default function Signup() {
     password: Yup.string()
       .required("Password is mandatory")
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+        // /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
         "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
       ),
     confirmPwd: Yup.string()

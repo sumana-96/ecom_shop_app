@@ -6,9 +6,11 @@ import Catalogue from "./components/catalogue";
 import Login from "./components/login";
 import Admin from "./components/admin";
 import SignUpSide from "./components/signupSide";
-
+import { Provider } from "react-redux";
+import store from './redux/store';
 export default function App() {
   return (
+    <Provider store={store}>
     <Router>
       <div>
         <Routes>
@@ -19,6 +21,6 @@ export default function App() {
           <Route exact path="/signup" element={<SignUpSide />} />
         </Routes>
       </div>
-    </Router>
+    </Router></Provider>
   );
 }

@@ -182,8 +182,7 @@ function Catalogue({ productData, fetchCatelogues }) {
                       </Typography>
                       <Typography>RS.{product.price}</Typography>
                       <Typography>
-                        rating
-                        <Rating name="read-only" value={product.rating} readOnly />
+                        <Rating name="read-only" value={product.ratings} readOnly />
                       </Typography>
                     </CardContent>
                     <CardActions>

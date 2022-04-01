@@ -23,6 +23,11 @@ const swaggerUi = require("swagger-ui-express");
 
 const swaggerJsdoc = require("swagger-jsdoc");
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+})
+
 //Extended: https://swagger.io/specification/#infoObject
 
 const swaggerOptions = {
@@ -140,7 +145,7 @@ app.post("/create_product", validateToken, async function (req, res) {
     const userId = req.body.user;
     const { name, description, price, ratings, brand } = req.body;
     const createdProduct = await prisma.product.create({
-      data: {
+      data: {        
         name: name,
         description: description,
         price: price,
@@ -159,7 +164,7 @@ app.post("/create_product", validateToken, async function (req, res) {
 app.get("/list_products", validateToken, async function (req, res) {
     try {
       const allProducts = await prisma.product.findMany();
-      res.status(200).json(allProducts);
+      res.status(200).send(allProducts);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -167,6 +172,6 @@ app.get("/list_products", validateToken, async function (req, res) {
   // productApi.getProducts
 );
 
-app.listen(3000);
+app.listen(5000);
 
 module.exports = router;

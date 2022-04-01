@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./navbar";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -23,8 +23,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Slider from "@mui/material/Slider";
+import Axios from 'axios';
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+// const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const minDistance = 10;
 
 function valuetext(value2) {
@@ -41,11 +42,20 @@ const MenuProps = {
     },
   },
 };
-
 const names = ["Chanel", "Prada", "Gucci Jackie"];
 
 export default function Catalogue() {
   const [personName, setPersonName, value, setValue] = React.useState([]);
+  const [data] = React.useState(null);
+  const [productList] = useState([]);
+
+
+  React.useEffect(() => {
+    Axios.get('http://localhost:5000/list_products')
+    .then((response) => { 
+      productList(response.data)
+    })
+  }, []);
 
   const handleChange = (event) => {
     const {
@@ -79,6 +89,7 @@ export default function Catalogue() {
   return (
     <div>
       <Navbar />
+      <div>{data}</div>
       <Grid container direction={"row"} spacing={5}>
         <Box
           sx={{ width: "100%", maxWidth: 260, bgcolor: "background.paper" }}
@@ -152,8 +163,8 @@ export default function Catalogue() {
             ></Box>
             <Container sx={{ py: 10, px: 0 }} maxWidth="lg">
               <Grid container spacing={5}>
-                {cards.map((card) => (
-                  <Grid item key={card} xs={12} sm={12} md={3}>
+               {productList.map((list) => (
+                  <Grid item key={list} xs={12} sm={12} md={3}>
                     <Card
                       sx={{
                         width: "100%",
@@ -170,11 +181,10 @@ export default function Catalogue() {
                       />
                       <CardContent sx={{ flexGrow: 1 }}>
                         <Typography gutterBottom variant="h5" component="h2">
-                          Heading
+                          {list.name}
                         </Typography>
                         <Typography>
-                          This is a media card. You can use this section to
-                          describe the content.
+                          {list.description}
                         </Typography>
                         <Typography>RS.1000</Typography>
                         <Typography>

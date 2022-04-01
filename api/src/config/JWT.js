@@ -9,18 +9,18 @@ const createTokens = (user) => {
 };
 
 const validateToken = (req, res, next) => {
-  const accessToken = req.cookies["access-token"];
+  // const accessToken = req.cookies["access-token"];
 
-  if (!accessToken)
-    return res.status(400).json({ error: "User not Authenticated!" });
-  try {
-    const validateToken = verify(accessToken, "jwtsecretplschange");
-    if (validateToken) {
-      req.authenticated = true;
+  // if (!accessToken)
+  //   return res.status(400).json({ error: "User not Authenticated!" });
+  // try {
+  //   const validateToken = verify(accessToken, "jwtsecretplschange");
+  //   if (validateToken) {
+  //     req.authenticated = true;
       return next();
-    }
-  } catch (err) {
-    return res.status(500).json({ error: err });
-  }
+  //   }
+  // } catch (err) {
+  //   return res.status(500).json({ error: err });
+  // }
 };
 module.exports = { createTokens, validateToken };

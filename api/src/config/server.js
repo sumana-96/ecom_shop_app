@@ -25,6 +25,10 @@ const swaggerJsdoc = require("swagger-jsdoc");
 
 //Extended: https://swagger.io/specification/#infoObject
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+})
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: "3.0.0",
@@ -156,7 +160,7 @@ app.post("/create_product", validateToken, async function (req, res) {
   }
 });
 
-app.get("/list_products", validateToken, async function (req, res) {
+app.get("/list_products",  async function (req, res) {
     try {
       const allProducts = await prisma.product.findMany();
       res.status(200).json(allProducts);
@@ -167,6 +171,6 @@ app.get("/list_products", validateToken, async function (req, res) {
   // productApi.getProducts
 );
 
-app.listen(3000);
+app.listen(5000);
 
 module.exports = router;

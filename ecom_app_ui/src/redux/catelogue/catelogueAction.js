@@ -36,8 +36,8 @@ export const fetchCatelogues = () => async (dispatch) => {
   .catch(error => {
       console.log(error.response)
       return dispatch({
-        type: categoryActionTypes.FETCH_CATELOGUE_FAILURE,
-        message: response.message,
+        type: catelogueActionTypes.FETCH_CATELOGUE_FAILURE,
+        message: error.response.message,
       });
   });
   

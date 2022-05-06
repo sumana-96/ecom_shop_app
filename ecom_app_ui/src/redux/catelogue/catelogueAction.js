@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 export const fetchCatelogues = () => async (dispatch) => {
-  axios.get('http://localhost:5000/list_products', 
+  axios.get('http://localhost:4000/list_products', 
     )
   .then(response => { 
     if (response.status === 200) {

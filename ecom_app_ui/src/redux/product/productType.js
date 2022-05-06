@@ -1,0 +1,4 @@
+export const productActionTypes = {
+    POST_PRODUCT_SUCCESS: 'POST_PRODUCT_SUCCESS',
+    POST_PRODUCT_FAILURE: 'POST_PRODUCT_FAILURE',
+  };

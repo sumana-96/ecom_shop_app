@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState  } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -8,18 +8,33 @@ import Grid from "@mui/material/Grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
 import Navbar from "./navbar";
+import { connect } from "react-redux";
+import { createProduct } from "../redux/product/productAction";
+
+
 const theme = createTheme();
 
-export default function CreateProduct() {
+ function Product(props) {
+
+  // constructor(props) {
+  //   super(props);
+    
+  // };
+ 
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-  };
 
+  const onSubmit = async (data) => {
+  const abc = createProduct(data);
+  console.log("abcc", abc)
+    createProduct(data)
+
+  };
+  
   const setPicture = useState(null);
   const setImgData = useState(null);
   const onChangePicture = (e) => {
@@ -57,6 +72,7 @@ export default function CreateProduct() {
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+       
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box mx={20} my={10}>
               <Box mx={1} px={2} py={2}>
@@ -125,3 +141,10 @@ export default function CreateProduct() {
     </ThemeProvider>
   );
 }
+const mapDispatchToProps = (dispatch) => {
+  
+  return {
+    createProduct: (data) => dispatch(createProduct(data)),
+  };
+};
+export default connect(null,mapDispatchToProps)(Product);

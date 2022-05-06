@@ -1,10 +1,14 @@
 const express = require("express");
+const cors = require('cors');
 const router = express.Router();
 const product = require("./routes/product.js");
 const user = require("./routes/user.js");
 const app = express();
+app.use(cors());
 app.use("/", product);
 app.use("/", user);
+app.use(express.json());
+
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
@@ -51,6 +55,6 @@ app.use(
  *     description: A successful response
  */
 
-app.listen(5000);
+app.listen(4000);
 
 module.exports = router;

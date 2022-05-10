@@ -13,17 +13,16 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Navbar from "./navbar";
+import { createUser } from "../redux/signup/signupAction";
+import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
 const theme = createTheme();
 
-export default function Signup() {
+function Signup() {
   const formSchema = Yup.object().shape({
     password: Yup.string()
-      .required("Password is mandatory")
-      .matches(
-        // /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
-        "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      ),
+      .required("Password is mandatory"),
     confirmPwd: Yup.string()
       .required("Password is mandatory")
       .oneOf([Yup.ref("password")], "Passwords does not match"),
@@ -33,14 +32,14 @@ export default function Signup() {
       .required("Email is mandatory")
       .email("That doesn't look like a valid email"),
   });
-
+  
   const formOptions = { resolver: yupResolver(formSchema) };
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors } = formState;
-  function onSubmit(data) {
-    console.log(JSON.stringify(data, null, 4));
-    return false;
-  }
+  const dispatch = useDispatch();
+  const onSubmit = async (data) => {
+    dispatch(createUser(data));
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -174,3 +173,11 @@ export default function Signup() {
     </ThemeProvider>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  
+  return {
+    createUser: (data) => dispatch(createUser(data)),
+  };
+};
+export default connect(null,mapDispatchToProps)(Signup);

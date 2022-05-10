@@ -27,13 +27,14 @@ async function (req, res) {
     const {
       email,
       password,
-      confirmPassword,
-      first_name,
-      last_name,
+      confirmPwd,
+      firstname,
+      lastname,
       isAdmin,
-    } = req.body;
-
-    if (password !== confirmPassword) {
+    } = req.body
+    console.log(req.body);
+    if (password !== confirmPwd) {
+      console.log(password,confirmPassword);
       return res.json("password not matched");
     } else {
       const hash = await bcrypt.hash(password, saltRounds);
@@ -41,9 +42,9 @@ async function (req, res) {
         data: {
           email: email,
           password: hash,
-          first_name: first_name,
-          last_name: last_name,
-          isAdmin: isAdmin,
+          first_name: firstname,
+          last_name: lastname,
+          isAdmin: false,
         },
       });
       res.status(HttpStatus.STATUS_CREATED).json(message);

@@ -10,29 +10,19 @@ import { useForm } from "react-hook-form";
 import Navbar from "./navbar";
 import { connect } from "react-redux";
 import { createProduct } from "../redux/product/productAction";
-
+import { useDispatch } from "react-redux";
 
 const theme = createTheme();
 
- function Product(props) {
-
-  // constructor(props) {
-  //   super(props);
-    
-  // };
- 
-
+ function Product() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const dispatch = useDispatch();
   const onSubmit = async (data) => {
-  const abc = createProduct(data);
-  console.log("abcc", abc)
-    createProduct(data)
-
+    dispatch(createProduct(data));
   };
   
   const setPicture = useState(null);
@@ -48,7 +38,7 @@ const theme = createTheme();
       reader.readAsDataURL(e.target.files[0]);
     }
   };
-
+  
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -93,6 +83,16 @@ const theme = createTheme();
                 </Box>
                 <Box mx={1} px={2} py={2}>
                   <TextField
+                    label="Email"
+                    variant="outlined"
+                    placeholder=""
+                    type="text"
+                    {...register("email", { required: true, maxLength: 99 })}
+                  />
+                  {errors.email && <p>Please check the email</p>}
+                </Box>
+                <Box mx={1} px={2} py={2}>
+                  <TextField
                     label="Brand"
                     variant="outlined"
                     type="text"
@@ -108,6 +108,15 @@ const theme = createTheme();
                     {...register("price", { required: true })}
                   />
                   {errors.price && <p>Please check the Email</p>}
+                </Box>
+                <Box mx={1} px={2} py={2}>
+                  <TextField
+                    label="Ratings"
+                    variant="outlined"
+                    type="Number"
+                    {...register("ratings", { required: true })}
+                  />
+                  {errors.ratings && <p>Please check the Email</p>}
                 </Box>
                 <Box mx={1} px={2} py={2}>
                   <TextField
@@ -141,6 +150,7 @@ const theme = createTheme();
     </ThemeProvider>
   );
 }
+
 const mapDispatchToProps = (dispatch) => {
   
   return {

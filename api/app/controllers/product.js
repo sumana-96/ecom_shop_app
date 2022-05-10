@@ -5,11 +5,16 @@ const { HttpStatus } = require("../../lib/constants");
 const app = express();
 app.use(express.json());
 const prisma = new PrismaClient();
-const { validateToken } = require("../../config/JWT");
-const createProduct = app.post("/create_product", validateToken, async function (req, res) {
+// const { validateToken } = require("../../config/JWT");
+const createProduct = app.post("/create_product", async function (req, res) {
     try {
       const message = "product created successfully";
-      const userId = req.body.user;
+      const user = await prisma.user.findUnique({
+        where: {
+          email: req.body.email,
+        },
+      })
+      const userId = user.id
       const { name, description, price, ratings, brand } = req.body;
       const createdProduct = await prisma.product.create({
         data: {

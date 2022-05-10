@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "products" ALTER COLUMN "ratings" DROP NOT NULL,
+ALTER COLUMN "ratings" SET DATA TYPE TEXT;

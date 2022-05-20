@@ -16,8 +16,13 @@ import Navbar from "./navbar";
 import { createUser } from "../redux/signup/signupAction";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
+import { useState } from 'react';
 
 const theme = createTheme();
+
+function toggle(value){
+  return !value;
+}
 
 function Signup() {
   const formSchema = Yup.object().shape({
@@ -35,9 +40,11 @@ function Signup() {
   
   const formOptions = { resolver: yupResolver(formSchema) };
   const { register, handleSubmit, formState } = useForm(formOptions);
+  const [checked, setChecked] = useState(false);
   const { errors } = formState;
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
+    console.log("page data",data);
     dispatch(createUser(data));
   };
 
@@ -149,6 +156,7 @@ function Signup() {
                   </Box>
                   <Box mx={1} px={2} py={2}>
                     <TextField
+                      label="confirm password"
                       variant="outlined"
                       name="confirmPwd"
                       type="password"
@@ -158,6 +166,17 @@ function Signup() {
                       }`}
                     />
                     <div>{errors.confirmPwd?.message}</div>
+                  </Box>
+                  <Box mx={1} px={2} py={2}>
+                    <Typography component="h6" variant="h6">Admin</Typography>
+                  </Box>
+                  <Box mx={1} px={5} py={2}>
+                  <input
+                    type="checkbox"
+                    name="isadmin"
+                    checked={checked}
+                    onChange={() => setChecked(toggle)}
+                  />                  
                   </Box>
                   <Box mx={1} px={2} py={2}>
                     <Button variant="contained" type="submit">

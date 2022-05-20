@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,10 +12,30 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import { loginUser } from "../redux/login/loginAction";
+import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+// import { connect } from "react-redux";
 const theme = createTheme();
 
-export default function Login() {
+function Login(props) {
+ 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // const [loading, setLoading] = useState(false);
+  const {
+    
+    formState: { errors },
+  } = useForm();
+  const dispatch = useDispatch();
+  const handleLogin = async () => {
+    let data = {email,password}
+    
+    dispatch(loginUser(data));
+  };
+  // if (isLoggedIn) {
+  //   return <Redirect to="/profile" />;
+  // }
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -38,6 +58,7 @@ export default function Login() {
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <form onSubmit={handleLogin}>
           <Box
             sx={{
               my: 8,
@@ -63,7 +84,10 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={(e)=> setEmail(e.target.value)}
               />
+              {console.log(errors.email)}
+              {errors.email && <p>Please check the Email</p>}
               <TextField
                 margin="normal"
                 required
@@ -73,12 +97,14 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e)=> setPassword(e.target.value)}
               />
+              {errors.password && <p>Please check the Email</p>}
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-              <Button
+              <Button onClick={handleLogin}
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -100,8 +126,11 @@ export default function Login() {
               </Grid>
             </Box>
           </Box>
+          </form>
         </Grid>
       </Grid>
     </ThemeProvider>
   );
 }
+
+export default (Login);

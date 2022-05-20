@@ -16,13 +16,8 @@ import Navbar from "./navbar";
 import { createUser } from "../redux/signup/signupAction";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
-import { useState } from 'react';
 
 const theme = createTheme();
-
-function toggle(value){
-  return !value;
-}
 
 function Signup() {
   const formSchema = Yup.object().shape({
@@ -39,11 +34,9 @@ function Signup() {
   });
   const formOptions = { resolver: yupResolver(formSchema) };
   const { register, handleSubmit, formState } = useForm(formOptions);
-  const [checked, setChecked] = useState(false);
   const { errors } = formState;
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
-    console.log("page data",data);
     dispatch(createUser(data));
   };
 

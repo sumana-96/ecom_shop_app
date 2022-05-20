@@ -30,13 +30,12 @@ async function (req, res) {
       confirmPwd,
       firstname,
       lastname,
-      isAdmin,
+      isAdmin
     } = req.body
-    console.log(req.body);
     if (password !== confirmPwd) {
-      console.log(password,confirmPassword);
       return res.json("password not matched");
     } else {
+      const is_admin = isAdmin == "true"? true : false;
       const hash = await bcrypt.hash(password, saltRounds);
       const createdUser = await prisma.user.create({
         data: {
@@ -44,7 +43,7 @@ async function (req, res) {
           password: hash,
           first_name: firstname,
           last_name: lastname,
-          isAdmin: false,
+          isAdmin: is_admin
         },
       });
       res.status(HttpStatus.STATUS_CREATED).json(message);

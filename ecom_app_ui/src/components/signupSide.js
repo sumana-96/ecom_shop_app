@@ -37,7 +37,6 @@ function Signup() {
       .required("Email is mandatory")
       .email("That doesn't look like a valid email"),
   });
-  
   const formOptions = { resolver: yupResolver(formSchema) };
   const { register, handleSubmit, formState } = useForm(formOptions);
   const [checked, setChecked] = useState(false);
@@ -174,8 +173,9 @@ function Signup() {
                   <input
                     type="checkbox"
                     name="isadmin"
-                    checked={checked}
-                    onChange={() => setChecked(toggle)}
+                    value={true}
+                    
+                    {...register("isAdmin")}
                   />                  
                   </Box>
                   <Box mx={1} px={2} py={2}>

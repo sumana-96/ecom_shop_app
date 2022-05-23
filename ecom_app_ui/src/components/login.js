@@ -1,43 +1,43 @@
-import React, { useState } from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+import React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Navbar from "./navbar";
 import { loginUser } from "../redux/login/loginAction";
 import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
-// import { connect } from "react-redux";
+
+
 const theme = createTheme();
 
-function Login(props) {
- 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // const [loading, setLoading] = useState(false);
-  const {
-    
-    formState: { errors },
-  } = useForm();
+function Login() {
+  const formSchema = Yup.object().shape({
+    password: Yup.string()
+      .required("Password is mandatory"),
+    email: Yup.string()
+      .required("Email is mandatory")
+      .email("That doesn't look like a valid email"),
+  });
+  const formOptions = { resolver: yupResolver(formSchema) };
+  const { register, handleSubmit, formState } = useForm(formOptions);
+  const { errors } = formState;
   const dispatch = useDispatch();
-  const handleLogin = async () => {
-    let data = {email,password}
-    
+  const onSubmit = async (data) => {
     dispatch(loginUser(data));
   };
-  // if (isLoggedIn) {
-  //   return <Redirect to="/profile" />;
-  // }
+
   return (
     <ThemeProvider theme={theme}>
+      <Navbar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -47,7 +47,7 @@ function Login(props) {
           md={7}
           sx={{
             backgroundImage:
-              "url(https://inc42.com/wp-content/uploads/2021/05/26-May-1-68-680x510.jpg)",
+              "url(https://cdn.pixabay.com/photo/2016/06/25/12/50/handbag-1478814__480.jpg)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -57,8 +57,15 @@ function Login(props) {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <form onSubmit={handleLogin}>
+        <Grid
+          item
+          xs={12}
+          sm={10}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+        >
           <Box
             sx={{
               my: 8,
@@ -68,69 +75,58 @@ function Login(props) {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Box component="form" noValidate sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                onChange={(e)=> setEmail(e.target.value)}
-              />
-              {console.log(errors.email)}
-              {errors.email && <p>Please check the Email</p>}
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={(e)=> setPassword(e.target.value)}
-              />
-              {errors.password && <p>Please check the Email</p>}
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button onClick={handleLogin}
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Box mx={20} my={10}>
+                <Box mx={10} px={2} py={2}>
+                  <div>
+                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                      <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                      Log in
+                    </Typography>
+                  </div>
+                </Box>
+                <Grid container style={{ width: "80%" }}>
+                  <Box mx={1} px={2} py={2}>
+                    <TextField
+                      label="Email"
+                      variant="outlined"
+                      type="email"
+                      name="email"
+                      {...register("email")}
+                      className={`form-control ${
+                        errors.email ? "is-invalid" : ""
+                      }`}
+                    />
+                    <div>{errors.email?.message}</div>
+                  </Box>
+                  <Box mx={1} px={2} py={2}>
+                    <TextField
+                      label="password"
+                      variant="outlined"
+                      name="password"
+                      type="password"
+                      {...register("password")}
+                      className={`form-control ${
+                        errors.password ? "is-invalid" : ""
+                      }`}
+                    />
+                    <div>{errors.password?.message}</div>
+                  </Box>
+                  <Box mx={1} px={2} py={2}>
+                    <Button variant="contained" type="submit">
+                      Log in
+                    </Button>
+                  </Box>
                 </Grid>
-                <Grid item>
-                  <Link href="/signup" variant="body2">
-                    Dont have an account? Sign Up
-                  </Link>
-                </Grid>
-              </Grid>
-            </Box>
+              </Box>
+            </form>
           </Box>
-          </form>
         </Grid>
       </Grid>
     </ThemeProvider>
   );
 }
 
-export default (Login);
+export default  (Login);

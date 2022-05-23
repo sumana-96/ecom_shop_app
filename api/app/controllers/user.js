@@ -55,6 +55,7 @@ async function (req, res) {
 );
 
 const loginUser = app.post("/login", async function (req, res) {
+
 try {
   const message = "user logged in successfully";
   const { email, password } = req.body;
@@ -71,7 +72,7 @@ try {
       res.cookie("access-token", accessToken, {
         maxAge: 60 * 60 * 24 * 30 * 1000,
       });
-      res.status(STATUS_OK).json({ message });
+      res.status(HttpStatus.STATUS_OK).json({ message });
     } else {
       res.status(400).json({ error: "Invalid Password" });
     }
@@ -79,6 +80,7 @@ try {
     res.status(401).json({ error: "User does not exist" });
   }
 } catch (err) {
+  console.log("err", err)
   return res.status(HttpStatus.STATUS_ERROR).json(err);
 }
 });

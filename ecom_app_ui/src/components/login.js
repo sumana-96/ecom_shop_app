@@ -15,8 +15,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Navbar from "./navbar";
 import { loginUser } from "../redux/login/loginAction";
 import { useDispatch } from "react-redux";
-
-
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../lib/contextLib";
 const theme = createTheme();
 
 function Login() {
@@ -27,12 +27,18 @@ function Login() {
       .required("Email is mandatory")
       .email("That doesn't look like a valid email"),
   });
+  const nav = useNavigate();
+  const { userHasAuthenticated } = useAppContext();
+
   const formOptions = { resolver: yupResolver(formSchema) };
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors } = formState;
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
+  
     dispatch(loginUser(data));
+    userHasAuthenticated(true);
+    nav("/");
   };
 
   return (

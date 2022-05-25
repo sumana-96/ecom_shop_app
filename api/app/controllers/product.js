@@ -20,8 +20,8 @@ const createProduct = app.post("/create_product", async function (req, res) {
         data: {
           name: name,
           description: description,
-          price: price,
-          ratings: ratings,
+          price: parseInt(price),
+          ratings: parseInt(ratings),
           brand: brand,
           user: { connect: { id: userId } },
         },
